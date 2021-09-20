@@ -1,0 +1,17 @@
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
+
+jobs:
+  build: 
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps: 
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: Publish Docker Image to Docker Hub
+          command: |
+            ls -la
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            docker build -t test-cicd:latest .
+            docker push $DOCKER_USER:test-cicd:latest
