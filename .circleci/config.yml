@@ -13,4 +13,4 @@ jobs:
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             docker build -t test-cicd:latest .
-            docker push $DOCKER_USER/test-cicd:latest
+            docker push test-cicd:latest
