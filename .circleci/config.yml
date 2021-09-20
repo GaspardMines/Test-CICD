@@ -1,9 +1,6 @@
 # This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
 
-orbs:
-  node: circleci/node@4.1
-
 jobs:
   build: 
     docker:
@@ -14,6 +11,6 @@ jobs:
       - run: 
           name: Publish Docker Image to Docker Hub
           command: |
-            docker login -u “$DOCKER_USER" -p "$DOCKER_PASS"
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             docker build -t gaspardc:test-cicd .
             docker push gaspardc:test-cicd:latest
