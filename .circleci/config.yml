@@ -11,6 +11,6 @@ jobs:
       - run: 
           name: Publish Docker Image to Docker Hub
           command: |
-            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" docker.io
             docker build -t test-cicd:latest .
-            docker push test-cicd:latest
+            docker push gaspardc/test-cicd:latest
