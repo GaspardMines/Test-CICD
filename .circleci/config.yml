@@ -3,13 +3,13 @@ version: 2.1
 
 jobs:
   test:
-    docker:
-      - image: cimg/node:16.8.0
+    machine:
+      - image: ubuntu-2004:202010-01
     steps:
       - checkout
       - run: |
-          npm ci
-          npm start &
+          docker build -t gaspardc/test-cicd:latest .
+          docker run -p 8080:8080 gaspardc/test-cicd:latest
           sleep 10
           curl "http://localhost:8080/"
   push: 
