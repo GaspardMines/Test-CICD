@@ -7,8 +7,14 @@ orbs:
 workflows:
   sample:
     jobs:
-      - node/test:
-          version: '15.1'
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
+      build:
+        - environment:
+          IMAGE_NAME: gaspardc/test-cicd
+        docker:
+          - image: circleci/buildpack-deps:stretch
+        steps:
+          - checkout
+          - setup_remote_docker
+          - run:
+            name: Build Docker image
+            command: docker build -t $IMAGE_NAME:latest .
