@@ -4,7 +4,7 @@ version: 2.1
 jobs:
   test:
     machine:
-      - image: ubuntu-2004:202010-01
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
       - run: |
@@ -30,4 +30,6 @@ workflows:
   test_and_push:
     jobs:
       - test
-      - push
+      - push :
+        requires :
+          - test
