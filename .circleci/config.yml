@@ -14,7 +14,7 @@ jobs:
           docker build -t gaspardc/test-cicd:latest .
           docker run -p 8080:8080 gaspardc/test-cicd:latest
           curl "http://localhost:8080/"
-  build: 
+  push: 
     docker:
       - image: docker:17.05.0-ce-git
     steps: 
@@ -26,3 +26,10 @@ jobs:
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" docker.io
             docker build -t gaspardc/test-cicd:latest .
             docker push gaspardc/test-cicd:latest
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test
+      - push
