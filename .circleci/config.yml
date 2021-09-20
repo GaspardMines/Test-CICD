@@ -4,17 +4,16 @@ version: 2.1
 orbs:
   node: circleci/node@4.1
 
-workflows:
-  sample:
-    jobs:
-      build:
-        - environment:
-          IMAGE_NAME: gaspardc/test-cicd
-        docker:
-          - image: circleci/buildpack-deps:stretch
-        steps:
-          - checkout
-          - setup_remote_docker
-          - run:
-            name: Build Docker image
-            command: docker build -t $IMAGE_NAME:latest .
+jobs:
+  build: 
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps: 
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: Publish Docker Image to Docker Hub
+          command: |
+            docker login -u “$DOCKER_USER" -p "$DOCKER_PASS"
+            docker build -t gaspardc:test-cicd .
+            docker push gaspardc:test-cicd:latest
