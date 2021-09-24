@@ -2,7 +2,17 @@
 version: 2.1
 
 jobs:
-  build: 
+  test:
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - checkout
+      - run: |
+          docker build -t gaspardc/test-cicd:latest .
+          docker run -p 8080:8080 -d gaspardc/test-cicd:latest
+          sleep 5
+          curl "http://localhost:8080/"
+  push: 
     docker:
       - image: docker:17.05.0-ce-git
     steps: 
@@ -11,7 +21,15 @@ jobs:
       - run: 
           name: Publish Docker Image to Docker Hub
           command: |
-            ls -la
-            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            docker build -t test-cicd:latest .
-            docker push $DOCKER_USER:test-cicd:latest
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" docker.io
+            docker build -t gaspardc/test-cicd:latest .
+            docker push gaspardc/test-cicd:latest
+
+workflows:
+  version: 2
+  test_and_push:
+    jobs:
+      - test
+      - push :
+          requires :
+            - test
